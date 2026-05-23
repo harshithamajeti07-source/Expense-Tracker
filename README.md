@@ -1,2 +1,13 @@
-# Expense-Tracker
-A responsive web-based expense tracker that helps users record and monitor their expenses efficiently.
+# Expense Tracker
+A simple and responsive expense tracker application built using HTML, CSS, and JavaScript.
+
+## Features
+- Add expenses
+- Delete expenses
+- Track total spending
+- User-friendly interface
+
+## Technologies Used
+- HTML
+- CSS
+- JavaScript
