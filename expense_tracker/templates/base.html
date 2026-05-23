@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Expense Tracker{% endblock %}</title>
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  <div class="app-layout">
+
+    {% if show_sidebar %}
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <div class="brand__icon">₹</div>
+        <span class="sidebar__title">Expense Tracker</span>
+      </div>
+
+      <nav class="sidebar__nav">
+        <a href="/dashboard" class="sidebar__link">Dashboard</a>
+        <a href="/add-expense" class="sidebar__link">Add Expense</a>
+        <a href="/expenses" class="sidebar__link">Expenses</a>
+        <a href="/reports" class="sidebar__link">Reports</a>
+        <a href="/profile" class="sidebar__link">Profile</a>
+        <a href="/logout" class="sidebar__link logout">Logout</a>
+      </nav>
+    </aside>
+    {% endif %}
+
+    <div class="main-area">
+
+      {% if session.get("user") %}
+      <header class="topbar">
+        <div class="topbar__left">
+          <span class="brand__name">Expense Tracker</span>
+        </div>
+
+        <div class="topbar__right">
+          <span class="nav-link">Welcome, {{ session["user"] }}</span>
+          <a href="/logout" class="btn btn--primary">Logout</a>
+        </div>
+      </header>
+      {% endif %}
+
+      <main class="page-content">
+        {% block content %}{% endblock %}
+      </main>
+
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <div class="modal-overlay hidden" id="confirmModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal__header">
+        <h3 id="modalTitle">Confirm Action</h3>
+        <button type="button" id="closeModalBtn" aria-label="Close modal">×</button>
+      </div>
+      <div class="modal__body">
+        <p id="modalMessage">Are you sure you want to continue?</p>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--ghost" type="button" id="cancelModalBtn">Cancel</button>
+        <button class="btn btn--danger" type="button" id="confirmModalBtn">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

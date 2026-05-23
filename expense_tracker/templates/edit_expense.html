@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Expense | Expense Tracker{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar__brand">
+      <div class="brand__icon">₹</div>
+      <span class="sidebar__title">Expense Tracker</span>
+    </div>
+
+    <nav class="sidebar__nav">
+      <a href="/dashboard" class="sidebar__link">Dashboard</a>
+      <a href="/add-expense" class="sidebar__link">Add Expense</a>
+      <a href="/expenses" class="sidebar__link active">Expenses</a>
+      <a href="/reports" class="sidebar__link">Reports</a>
+      <a href="/profile" class="sidebar__link">Profile</a>
+      <a href="/logout" class="sidebar__link logout">Logout</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="dashboard-main">
+
+    <!-- HEADER -->
+    <header class="dashboard-header">
+      <div>
+        <h1 class="dashboard-title">Edit Expense</h1>
+        <p class="dashboard-subtitle">Update your expense details</p>
+      </div>
+    </header>
+
+    <!-- FORM CARD -->
+    <section class="form-card">
+
+      <form method="POST" class="form" enctype="multipart/form-data">
+
+        <!-- TITLE -->
+        <div class="form-group">
+          <label class="form-label">Expense Title</label>
+          <div class="input-wrapper">
+            <span class="input-icon">📝</span>
+            <input type="text" name="title" class="form-input" value="{{ expense[2] }}" required>
+          </div>
+        </div>
+
+        <!-- AMOUNT -->
+        <div class="form-group">
+          <label class="form-label">Amount</label>
+          <div class="input-wrapper">
+            <span class="input-icon">₹</span>
+            <input type="number" name="amount" class="form-input" value="{{ expense[3] }}" required>
+          </div>
+        </div>
+
+        <!-- CATEGORY -->
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select name="category" class="form-select">
+
+  <option {% if expense[4] == "Food" %}selected{% endif %}>Food</option>
+  <option {% if expense[4] == "Travel" %}selected{% endif %}>Travel</option>
+  <option {% if expense[4] == "Shopping" %}selected{% endif %}>Shopping</option>
+  <option {% if expense[4] == "Education" %}selected{% endif %}>Education</option>
+
+  <option {% if expense[4] == "Bills" %}selected{% endif %}>Bills</option>
+  <option {% if expense[4] == "Medical" %}selected{% endif %}>Medical</option>
+  <option {% if expense[4] == "Entertainment" %}selected{% endif %}>Entertainment</option>
+  <option {% if expense[4] == "Other" %}selected{% endif %}>Other</option>
+
+</select>
+        </div>
+
+        <!-- DATE -->
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input type="date" name="date" class="form-input" value="{{ expense[5] }}">
+        </div>
+
+        <!-- PAYMENT -->
+        <div class="form-group">
+          <label class="form-label">Payment Method</label>
+          <select name="payment" class="form-select">
+  <option value="">Select Payment</option>
+
+  <option value="UPI" {% if expense[6] == "UPI" %}selected{% endif %}>UPI</option>
+  <option value="Cash" {% if expense[6] == "Cash" %}selected{% endif %}>Cash</option>
+
+  <option value="Credit Card" {% if expense[6] == "Credit Card" %}selected{% endif %}>Credit Card</option>
+  <option value="Debit Card" {% if expense[6] == "Debit Card" %}selected{% endif %}>Debit Card</option>
+  <option value="Bank Transfer" {% if expense[6] == "Bank Transfer" %}selected{% endif %}>Bank Transfer</option>
+          </select>   
+        </div>
+
+        <!-- NOTE -->
+        <div class="form-group">
+          <label class="form-label">Note (Optional)</label>
+          <textarea name="note">{{ expense[7] if expense[7] else '' }}</textarea>
+        </div>
+
+        <!-- CURRENT RECEIPT -->
+        <div class="form-group">
+          <label class="form-label">Current Receipt</label>
+          <div class="receipt-box">
+            {% if expense[8] %}
+              <span>Receipt Available</span>
+              <a href="/{{ expense[8] }}" target="_blank" class="text-link">View</a>
+            {% else %}
+              <span>No receipt uploaded</span>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- NEW FILE -->
+        <div class="form-group">
+          <label class="form-label">Replace Receipt (Optional)</label>
+          <div class="file-upload">
+            <input type="file" name="receipt" id="receipt">
+            <label for="receipt" class="file-label">📎 Choose File</label>
+            <span id="fileName">No file chosen</span>
+          </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="form-actions">
+          <a href="/expenses" class="btn btn--ghost">Cancel</a>
+          <button type="submit" class="btn btn--primary">Update Expense</button>
+        </div>
+
+      </form>
+
+    </section>
+
+  </main>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const fileInput = document.getElementById("receipt");
+  const fileName = document.getElementById("fileName");
+
+  if (fileInput) {
+    fileInput.addEventListener("change", () => {
+      fileName.textContent = fileInput.files.length
+        ? fileInput.files[0].name
+        : "No file chosen";
+    });
+  }
+
+});
+</script>
+{% endblock %}

@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}Expenses | Expense Tracker{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar__brand">
+      <div class="brand__icon">₹</div>
+      <span class="sidebar__title">Expense Tracker</span>
+    </div>
+
+    <nav class="sidebar__nav">
+      <a href="/dashboard" class="sidebar__link">Dashboard</a>
+      <a href="/add-expense" class="sidebar__link">Add Expense</a>
+      <a href="/expenses" class="sidebar__link active">Expenses</a>
+      <a href="/reports" class="sidebar__link">Reports</a>
+      <a href="/profile" class="sidebar__link">Profile</a>
+      <a href="/logout" class="sidebar__link logout">Logout</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="dashboard-main">
+
+    <!-- HEADER -->
+    <header class="dashboard-header">
+      <div>
+        <h1 class="dashboard-title">All Expenses</h1>
+        <p class="dashboard-subtitle">Manage and review your transactions</p>
+      </div>
+      <a href="/add-expense" class="btn btn--primary">+ Add Expense</a>
+    </header>
+
+    <!-- FILTERS -->
+    <section class="filter-bar">
+
+      <input type="text" id="search" class="form-input" placeholder="Search expenses...">
+
+      <select id="filterCategory" class="form-select">
+        <option value="">All Categories</option>
+        <option>Food</option>
+        <option>Travel</option>
+        <option>Shopping</option>
+        <option>Education</option>
+      </select>
+      <input type="date" id="startDate" class="form-input date-input">
+<input type="date" id="endDate" class="form-input date-input">
+
+      <button class="btn btn--secondary" id="filterBtn">Filter</button>
+
+    </section>
+
+    <!-- TABLE -->
+    <section class="table-card">
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>Payment</th>
+            <th>Receipt</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody id="expenseTable">
+
+          {% if expenses %}
+            {% for expense in expenses %}
+            <tr 
+                data-title="{{ expense[2] }}"
+                data-category="{{ expense[4] }}"
+                data-date="{{ expense[5] }}"> 
+              <td>{{ expense[2] }}</td>
+              <td>₹{{ expense[3] }}</td>
+              <td>{{ expense[4] }}</td>
+              <td>{{ expense[5] }}</td>
+              <td>{{ expense[6] }}</td>
+
+              <td>
+                {% if expense[8] %}
+                <a href="/{{ expense[8] }}" target="_blank" class="text-link">View</a>
+                {% else %}
+                  No Receipt
+                {% endif %}
+              </td>
+
+              <td class="actions">
+                <a href="/edit-expense/{{ expense[0] }}" class="btn btn--ghost btn-sm">Edit</a>
+
+                <form action="/delete-expense/{{ expense[0] }}" method="POST" style="display:inline;">
+                  <button type="submit" class="btn btn--danger btn-sm">
+                    Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          {% endif %}
+
+        </tbody>
+      </table>
+
+      <!-- EMPTY STATE -->
+      {% if not expenses %}
+      <div class="empty-state" id="emptyState">
+        <p>No expenses found.</p>
+        <a href="/add-expense" class="btn btn--primary">Add Your First Expense</a>
+      </div>
+      {% endif %}
+
+    </section>
+
+  </main>
+</div>
+{% endblock %}
+{% block extra_scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const searchInput = document.getElementById("search");
+  const categoryFilter = document.getElementById("filterCategory");
+  const startDate = document.getElementById("startDate");
+  const endDate = document.getElementById("endDate");
+  const filterBtn = document.getElementById("filterBtn");
+
+  const rows = document.querySelectorAll("#expenseTable tr");
+
+  function filterExpenses() {
+    const searchValue = searchInput.value.toLowerCase();
+    const categoryValue = categoryFilter.value;
+    const start = startDate.value;
+    const end = endDate.value;
+
+    rows.forEach(row => {
+      const text = row.innerText.toLowerCase();
+      const category = row.dataset.category;
+      const date = row.dataset.date;
+
+      let show = true;
+
+      // 🔍 Search (ALL columns)
+      if (searchValue && !text.includes(searchValue)) {
+        show = false;
+      }
+
+      // 📂 Category
+      if (categoryValue && category !== categoryValue) {
+        show = false;
+      }
+
+      // 📅 Date range
+      if (start && date < start) {
+        show = false;
+      }
+
+      if (end && date > end) {
+        show = false;
+      }
+
+      row.style.display = show ? "" : "none";
+    });
+  }
+
+  // Button click
+  if (filterBtn) {
+    filterBtn.addEventListener("click", filterExpenses);
+  }
+
+  // Live search
+  if (searchInput) {
+    searchInput.addEventListener("keyup", filterExpenses);
+  }
+
+});
+</script>
+{% endblock %}

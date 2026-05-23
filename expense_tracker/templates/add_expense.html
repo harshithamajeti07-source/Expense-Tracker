@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Add Expense | Expense Tracker{% endblock %}
+
+{% block content %}
+
+    <!-- HEADER -->
+    <header class="dashboard-header">
+      <div>
+        <h1 class="dashboard-title">Add New Expense</h1>
+        <p class="dashboard-subtitle">Track your spending with precision</p>
+      </div>
+    </header>
+
+    <!-- FORM CARD -->
+    <section class="form-card">
+
+      <form method="POST" action="/add-expense" enctype="multipart/form-data">
+        <!-- TITLE -->
+        <div class="form-group">
+          <label class="form-label">Expense Title</label>
+          <div class="input-wrapper">
+            <span class="input-icon">📝</span>
+            <input type="text" name="title" class="form-input" required>
+          </div>
+          <p class="form-error" id="titleError"></p>
+        </div>
+
+        <!-- AMOUNT -->
+        <div class="form-group">
+          <label class="form-label">Amount</label>
+          <div class="input-wrapper">
+            <span class="input-icon">₹</span>
+            <input type="number" name="amount" min="0.01" step="0.01" class="form-input" required>
+          </div>
+          <p class="form-error" id="amountError"></p>
+        </div>
+
+        <!-- CATEGORY -->
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select name="category" class="form-select" required>
+            <option value="">Select category</option>
+            <option>Food</option>
+            <option>Travel</option>
+            <option>Shopping</option>
+            <option>Education</option>
+            <option>Bills</option>
+            <option>Medical</option>
+            <option>Entertainment</option>
+            <option>Other</option>
+          </select>
+          <p class="form-error" id="categoryError"></p>
+        </div>
+
+        <!-- DATE -->
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input type="date" name="date" class="form-input" required>
+          <p class="form-error" id="dateError"></p>
+        </div>
+
+        <!-- PAYMENT METHOD -->
+        <div class="form-group">
+          <label class="form-label">Payment Method</label>
+          <select name="payment" class="form-select">
+            <option value="">Select method</option>
+            <option>Cash</option>
+            <option>UPI</option>
+            <option>Debit Card</option>
+            <option>Credit Card</option>
+            <option>Bank Transfer</option>
+          </select>
+          <p class="form-error" id="paymentError"></p>
+        </div>
+
+        <!-- NOTE -->
+        <div class="form-group">
+          <label class="form-label">Note (Optional)</label>
+          <textarea name="note" class="form-textarea"></textarea>
+        </div>
+
+        <!-- FILE UPLOAD -->
+        <div class="form-group">
+          <label class="form-label">Upload Receipt (Optional)</label>
+
+          <div class="file-upload">
+           <input type="file" name="receipt" id="receipt" accept=".jpg,.png,.jpeg">
+            <label for="receipt" class="file-label">
+              📎 Choose File
+            </label>
+            <span id="fileName">No file chosen</span>
+          </div>
+        </div>
+
+        <!-- ALERT -->
+        <div class="form-alert form-alert--error hidden" id="formAlert">
+          Please fix the errors before submitting.
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="form-actions">
+          <button type="reset" class="btn btn--ghost">Reset</button>
+          <button type="submit" class="btn btn--primary">Add Expense</button>
+        </div>
+
+      </form>
+
+    </section>
+
+{% endblock %}
+
+
+  

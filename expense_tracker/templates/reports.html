@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Reports | Expense Tracker{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar__brand">
+      <div class="brand__icon">₹</div>
+      <span class="sidebar__title">Expense Tracker</span>
+    </div>
+
+    <nav class="sidebar__nav">
+      <a href="/dashboard" class="sidebar__link">Dashboard</a>
+      <a href="/add-expense" class="sidebar__link">Add Expense</a>
+      <a href="/expenses" class="sidebar__link">Expenses</a>
+      <a href="/reports" class="sidebar__link active">Reports</a>
+      <a href="/profile" class="sidebar__link">Profile</a>
+      <a href="/logout" class="sidebar__link logout">Logout</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="dashboard-main">
+
+    <!-- HEADER -->
+    <header class="dashboard-header">
+      <div>
+        <h1 class="dashboard-title">Reports & Insights</h1>
+        <p class="dashboard-subtitle">Analyze your spending patterns</p>
+      </div>
+    </header>
+
+    <!-- SUMMARY CARDS -->
+    <section class="cards-grid">
+
+      <div class="card card--primary">
+        <span class="card-label">Total Spending</span>
+        <span class="card-value">₹{{ total }}</span>
+      </div>
+
+      <div class="card">
+        <span class="card-label">Highest Expense</span>
+        <span class="card-value">₹{{ highest }}</span>
+      </div>
+
+      <div class="card">
+        <span class="card-label">Lowest Expense</span>
+        <span class="card-value">₹{{ lowest }}</span>
+      </div>
+
+      <div class="card">
+        <span class="card-label">Average</span>
+        <span class="card-value">₹{{ avg }}</span>
+      </div>
+
+    </section>
+
+    <!-- GRID -->
+    <section class="dashboard-grid">
+
+      <!-- CATEGORY BREAKDOWN -->
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Category Breakdown</h3>
+        </div>
+
+        <div class="chart-bars">
+
+          {% for cat, amount in category_data %}
+          <div class="bar">
+            <span>{{ cat }}</span>
+
+            <div class="bar-track">
+              <div class="bar-fill" style="width: {{ (amount/total*100) if total else 0 }}%"></div>
+            </div>
+
+            <span>₹{{ amount | int }}</span>
+          </div>
+          {% endfor %}
+
+        </div>
+      </div>
+
+      <!-- MONTHLY SUMMARY -->
+      <div class="panel">
+        <div class="panel-header">
+          <h3>Monthly Summary</h3>
+        </div>
+
+        <div class="chart-bars monthly-bars">
+
+          {% for month, amount in monthly_data %}
+          <div class="bar">
+            <span>{{ month }}</span>
+
+            <div class="bar-track">
+              <div class="bar-fill alt" style="width: {{ (amount/max_month*100) if max_month else 0 }}%"></div>
+            </div>
+
+            <span>₹{{ amount }}</span>
+          </div>
+          {% endfor %}
+
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+{% endblock %}

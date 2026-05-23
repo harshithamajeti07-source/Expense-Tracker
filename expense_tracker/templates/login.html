@@ -1,0 +1,133 @@
+{%extends "base.html" %}
+
+{% set show_nav = false %}
+
+{% block title %}Login | Expense Tracker{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="auth-page">
+  <div class="auth-layout">
+    <div class="auth-hero">
+      <div class="auth-hero__badge">Smart Personal Finance</div>
+      
+      <h1 class="auth-hero__title">
+        Manage your money with clarity, confidence, and control.
+      </h1>
+
+      <p class="auth-hero__subtitle">
+        Track expenses, upload receipts optionally, view insights, and stay on top
+        of your daily spending with a premium finance dashboard.
+      </p>
+
+      <div class="auth-hero__highlights">
+        <div class="feature-chip">Real-time summaries</div>
+        <div class="feature-chip">Secure login</div>
+        <div class="feature-chip">Clean dashboard</div>
+        <div class="feature-chip">Receipt upload optional</div>
+      </div>
+    
+    </div>
+
+    <div class="auth-card-wrapper">
+      <div class="auth-card">
+        <div class="auth-card__header">
+          <a href="/" class="brand brand--compact" aria-label="Expense Tracker Home">
+            <div class="brand__icon">₹</div>
+            <div class="brand__text">
+              <span class="brand__name">Expense Tracker</span>
+            </div>
+          </a>
+
+          <h2 class="auth-card__title">Welcome back</h2>
+          <p class="auth-card__subtitle">
+            Sign in to continue to your personal finance dashboard.
+          </p>
+        </div>
+
+        <form id="loginForm" class="form" method="POST" action = "/" novalidate>
+          <div class="form-group">
+            <label for="loginIdentifier" class="form-label">Username or Email</label>
+            <div class="input-wrapper">
+              <span class="input-icon">@</span>
+              <input
+                type="text"
+                id="loginIdentifier"
+                name="loginIdentifier"
+                class="form-input"
+                placeholder="Enter your username or email"
+                autocomplete="username"
+                required
+                aria-describedby="loginIdentifierError"
+              />
+            </div>
+            <p class="form-error" id="loginIdentifierError"></p>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label-row">
+              <label for="password" class="form-label">Password</label>
+              <a href="/forgot-password" class="forgot-link">
+                Forgot password?
+              </a>
+            </div>
+
+            <div class="input-wrapper">
+              <span class="input-icon">🔒</span>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-input form-input--with-toggle"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+                minlength="6"
+                aria-describedby="passwordError"
+              />
+              <button
+                class="input-toggle"
+                type="button"
+                id="togglePassword"
+                aria-label="Show password"
+              >
+                Show
+              </button>
+            </div>
+            <p class="form-error" id="passwordError"></p>
+          </div>
+
+          <div class="form-row form-row--between">
+            <label class="checkbox">
+              <input type="checkbox" name="rememberMe" />
+              <span>Remember me</span>
+            </label>
+          </div>
+
+          <div class="form-alert form-alert--error hidden" id="loginAlert">
+            Invalid username/email or password. Please try again.
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--full">
+            Sign In
+          </button>
+          </form>
+
+          <div class="auth-divider">
+            <span>or</span>
+          </div>
+          <a href="/register"  type="button" class="btn btn--secondary btn--full">
+             Create New Account
+          </a>
+          
+        <p class="auth-footer-text">
+          By continuing, you agree to a secure and user-friendly expense tracking experience.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

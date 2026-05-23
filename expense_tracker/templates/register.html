@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% set show_nav = false %}
+
+{% block title %}Register | Expense Tracker{% endblock %}
+
+{% block content %}
+<section class="auth-page">
+  <div class="auth-layout">
+
+    <!-- LEFT SIDE (Visual / Branding) -->
+    <div class="auth-hero">
+      <div class="auth-hero__badge">Start Your Financial Journey</div>
+
+      <h1 class="auth-hero__title">
+        Take control of your spending with a smarter system.
+      </h1>
+
+      <p class="auth-hero__subtitle">
+        Create your account and start tracking your daily expenses, analyze your
+        habits, and make better financial decisions — all in one place.
+      </p>
+
+      <div class="auth-hero__highlights">
+        <div class="feature-chip">Track expenses easily</div>
+        <div class="feature-chip">Secure account</div>
+        <div class="feature-chip">Detailed insights</div>
+        <div class="feature-chip">Optional receipt upload</div>
+      </div>
+
+      <div class="auth-visual-card">
+        <div class="metric-card metric-card--primary">
+          <span class="metric-card__label">Smart Tracking</span>
+          <span class="metric-card__value">₹0 → ₹Control</span>
+          <span class="metric-card__trend">Build better habits from day one</span>
+        </div>
+
+        <div class="mini-stats-grid">
+          <div class="mini-stat">
+            <span class="mini-stat__label">Clarity</span>
+            <span class="mini-stat__value">100%</span>
+          </div>
+          <div class="mini-stat">
+            <span class="mini-stat__label">Control</span>
+            <span class="mini-stat__value">Improved</span>
+          </div>
+          <div class="mini-stat">
+            <span class="mini-stat__label">Tracking</span>
+            <span class="mini-stat__value">Daily</span>
+          </div>
+          <div class="mini-stat">
+            <span class="mini-stat__label">Insights</span>
+            <span class="mini-stat__value">Real-time</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE (Register Form) -->
+    <div class="auth-card-wrapper">
+      <div class="auth-card">
+
+        <div class="auth-card__header">
+          <a href="/" class="brand brand--compact">
+            <div class="brand__icon">₹</div>
+            <div class="brand__text">
+              <span class="brand__name">Expense Tracker</span>
+            </div>
+          </a>
+
+          <h2 class="auth-card__title">Create Account</h2>
+          <p class="auth-card__subtitle">
+            Sign up to start managing your expenses efficiently.
+          </p>
+        </div>
+
+        <form id="registerForm" class="form" method="POST" action="/register" novalidate>
+          
+          <!-- FULL NAME -->
+          <div class="form-group">
+            <label for="fullName" class="form-label">Full Name</label>
+            <div class="input-wrapper">
+              <span class="input-icon">👤</span>
+              <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                class="form-input"
+                placeholder="Enter your full name"
+                required
+              />
+            </div>
+            <p class="form-error" id="fullNameError"></p>
+          </div>
+
+          <!-- USERNAME -->
+          <div class="form-group">
+            <label for="username" class="form-label">Username</label>
+            <div class="input-wrapper">
+              <span class="input-icon">@</span>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                class="form-input"
+                placeholder="Choose a username"
+                required
+              />
+            </div>
+            <p class="form-error" id="usernameError"></p>
+          </div>
+
+          <!-- EMAIL -->
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <div class="input-wrapper">
+              <span class="input-icon">✉️</span>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-input"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+            <p class="form-error" id="emailError"></p>
+          </div>
+
+          <!-- PASSWORD -->
+          <div class="form-group">
+            <label for="regPassword" class="form-label">Password</label>
+            <div class="input-wrapper">
+              <span class="input-icon">🔒</span>
+              <input
+                type="password"
+                id="regPassword"
+                name="password"
+                class="form-input form-input--with-toggle"
+                placeholder="Create a password"
+                required
+                minlength="6"
+              />
+              <button type="button" class="input-toggle" id="toggleRegPassword">
+                Show
+              </button>
+            </div>
+            <p class="form-error" id="passwordError"></p>
+          </div>
+
+          <!-- CONFIRM PASSWORD -->
+          <div class="form-group">
+            <label for="confirmPassword" class="form-label">Confirm Password</label>
+            <div class="input-wrapper">
+              <span class="input-icon">🔒</span>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                class="form-input"
+                placeholder="Confirm your password"
+                required
+              />
+            </div>
+            <p class="form-error" id="confirmPasswordError"></p>
+          </div>
+
+          <!-- ALERT -->
+          <div class="form-alert form-alert--error hidden" id="registerAlert">
+            Please fix the errors before submitting.
+          </div>
+
+          <!-- SUBMIT -->
+          <button type="submit" class="btn btn--primary btn--full">
+            Create Account
+          </button>
+
+          <!-- LOGIN LINK -->
+          <div class="auth-divider">
+            <span>Already have an account?</span>
+          </div>
+
+          <a href="/login" class="btn btn--secondary btn--full">
+            Sign In Instead
+          </a>
+        </form>
+
+        <p class="auth-footer-text">
+          Your data is secure and used only to improve your expense tracking experience.
+        </p>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}
